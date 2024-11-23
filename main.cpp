@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <math.h>
 #include <iostream>
@@ -144,26 +142,15 @@ class Layer
 
 int main(int argc, char *argv[])
 {
-    // Example for 64-bit connections
     connections64 c64;
     c64.enc4(4, 237, 8, 1200);
-    
-    // Encoding with 16-bit values
     Neuron<connections64> n64{0.56, 200, c64};
     tuple4x16 m64 = n64.connections.dec4();
-    
-    // Decoding into 16-bit tuple
     std::cout << m64.b << std::endl;
-
-    // Example for 32-bit connections
     connections32 c32;
     c32.enc4(255, 128, 64, 32);
-    
-    // Encoding with 8-bit values
     Neuron<connections32> n32{0.34, 120, c32};
     tuple4x8 m32 = n32.connections.dec4();
-    
-   // Decoding into 8-bit tuple
     std::cout << (int)m32.a << std::endl;
 
     return 0;
