@@ -2,6 +2,9 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <array>
+
+#define array std::array
 
 float sigmoid(float x)
 {
@@ -10,16 +13,12 @@ float sigmoid(float x)
 
 float cap_to_1(float x)
 {
-    if (x >= 1)
-    {
-        return 1;
-    }
-    if (x <= 0)
-    {
-        return 0;
-    }
+    if (x >= 1){return 1;}
+    if (x <= 0){return 0;}
     return x;
 }
+
+float 
 
 float LeakyReLU(float x, float leak)
 {
@@ -57,72 +56,21 @@ float calc_output(char activation, char weight, float value, const float leak = 
     }
 }
 
-// Define the tuple structs for both 32-bit and 64-bit types
-struct tuple4x8
-{
-    unsigned char a, b, c, d;
-};
 
-struct tuple4x16
-{
-    unsigned short a, b, c, d;
-};
+template <typename T, std::size_t N>
 
-// Unified Connections class template that can handle both 32-bit and 64-bit
-
-class Connections
-{
-    tuple4x8 bin;
-
-  public:
-    // Method for encoding 4 values (either 8-bit or 16-bit)
-    void enc4(TupleType a, TupleType b, TupleType c, TupleType d)
-    {
-        if constexpr (std::is_same_v<TupleType, unsigned short int>) // 16-bit encoding
-        {
-            bin = ((T)a << 48) | ((T)b << 32) | ((T)c << 16) | (T)d;
-        }
-        else if constexpr (std::is_same_v<TupleType, unsigned char>) // 8-bit encoding
-        {
-            bin = ((T)a << 24) | ((T)b << 16) | ((T)c << 8) | (T)d;
-        }
-    }
-
-    auto dec4()
-    {
-        if constexpr (std::is_same_v<TupleType, short int>)
-        // 16-bit decoding
-        {
-            return tuple4x16{
-                (unsigned short int)((bin >> 48) & 0xFFFF),
-                (unsigned short int)((bin >> 32) & 0xFFFF),
-                (unsigned short int)((bin >> 16) & 0xFFFF),
-                (unsigned short int)(bin & 0xFFFF)};
-        }
-        else if constexpr (std::is_same_v<TupleType, unsigned char>)
-        // 8-bit decoding
-        {
-            return tuple4x8{
-                (unsigned char)((bin >> 24) & 0xFF),
-                (unsigned char)((bin >> 16) & 0xFF),
-                (unsigned char)((bin >> 8) & 0xFF),
-                (unsigned char)(bin & 0xFF)};
-        }
-    }
-};
-
-// Type aliases for convenience
-using connections64 = Connections<unsigned short int>;
-using connections32 = Connections<unsigned char>;
-
-// Template-based Neuron struct to accept any type of connection (32 or 64-bit)
-template <typename ConnType>
+class ArrayMemEfficient {
+private:
+    array<T, N> connections;
+public:
+    array getarray() {}
+}
 
 struct Neuron
 {
     float mult;      // precise computation for multiplication
     char scaledBias; // Bias with steps of size 0.05, allows a bias from 0-12.75
-    ConnType connections;
+    tuple connections;
 };
 
 // Layer class for storing neurons
