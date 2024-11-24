@@ -32,6 +32,10 @@ float LeakyReLU(float x, float leak)
         return x * leak;
     } // using α=0.05
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1ed48b532cf6c558a86ed3f16de05cabef660897
 float calc_output(char activation, char weight, float value, const float leak = 0.05)
 {
     if (activation == 0) // sigmoid Activation Function
@@ -153,4 +157,8 @@ int main(int argc, char *argv[])
     std::cout << (int)m32.a << std::endl;
 
     return 0;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 1ed48b532cf6c558a86ed3f16de05cabef660897
