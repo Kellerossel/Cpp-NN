@@ -4,7 +4,10 @@
 #include <vector>
 #include <array>
 
+#define vector std::vector
 #define array std::array
+
+
 
 float sigmoid(float x)
 {
@@ -34,57 +37,56 @@ float LeakyReLU(float x, float leak)
 
 float calc_output(char activation, char weight, float value, const float leak = 0.05)
 {
-    if (activation == 0) // sigmoid Activation Function
-    {
+    switch(activation) {}
+    case 0: //sigmoid
         return sigmoid(value) * (0.004 * weight);
-    }
-    else if (activation == 1) // Rectified Linear Unit
-    {
-        return cap_to_1(value) * (0.004 * weight);
-    }
-    else if (activation == 2) // tanh
-    {
+    case 1: //Rectified Linear Unit
+        return cap_to_1(value) * (0.004 * weight)Z
+    case 2: //tanh
         return tanh(value) * (0.004 * weight);
-    }
-    else if (activation == 3) // Leaky ReLU / Leaky Rectified Linear Unit
-    {
+    case 3: //Leaky Rectified Linear Unit
         return LeakyReLU(value, leak) * (0.004 * weight);
-    }
-    else
-    {
-        throw std::invalid_argument("ArgumentError: activation needs to be a char value from 0 to 3");
-    }
+    
+    //The cases automatically break the switch statement, if none of the cases is executed it throws this error
+    throw std::invalid_argument("ArgumentError: activation needs to be a char value from 0 to 3");
 }
 
-
-template <typename T, std::size_t N>
-
-class ArrayMemEfficient {
-private:
-    array<T, N> connections;
-public:
-    array getarray() {}
-}
-
+template <typename Type>
 struct Neuron
 {
-    float mult;      // precise computation for multiplication
-    char scaledBias; // Bias with steps of size 0.05, allows a bias from 0-12.75
-    tuple connections;
+    private:
+        float mult;      // precise computation for multiplication
+        char scaledBias; // Bias with steps of size 0.05, allows a bias from 0-12.75
+        vector<Type> connections; //vector of index of next neurons
+    public:
+        void shrink() {
+            std::sort(connections.begin(), connections.end());
+            auto new_end = std::unique(connections.begin(), connections.end());
+            connections.erase(new_end, connections.end());
+            connections.shrink_to_fit();
+        }
+
+        void setup_connections(Number, max) {
+            for (int i=0; i<=Number; i++) {
+                if (max <= 255) {
+                    connections.push_back()
+                }
+            }
+        }
+
 };
 
 // Layer class for storing neurons
 class Layer
 {
-    std::vector<Neuron<connections64>> layerlist; 
-    // Example using connections64, can be changed to connections32 if needed
+    std::vector<Neuron> layerlist;
 
   public:
     void constructNetwork(int size)
     {
         for(int i=0; i<=size; i++) {
         }
-        // To be implemented
+        //unfinished
     }
 };
 
